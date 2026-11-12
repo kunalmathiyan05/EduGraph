@@ -1,17 +1,17 @@
-# 🎓 EduGraph — Agentic College Assistant
+# 🎓 EduGraph — AI College Assistant
 
-EduGraph is a **LangGraph-powered AI college assistant** that intelligently routes student queries and uses **Retrieval-Augmented Generation (RAG)** to answer academic and fee-related questions from official college documents.
+EduGraph is a **LangGraph-powered college assistant** that answers student questions using **Retrieval-Augmented Generation (RAG)** over the academic handbook and fee structure PDFs. It includes a Streamlit chat interface and a command-line version.
 
 ## 🚀 Features
 
-* 🤖 **LangGraph Workflow** — Stateful graph-based query processing and conditional routing.
+* 🤖 **LangGraph Workflow** — Processes queries through a graph with conditional routing.
 * 🧠 **LLM-Powered Query Classification** — Automatically classifies queries as academic, fee, or general.
-* 📚 **PDF-Based RAG** — Retrieves relevant information from college academic and fee documents.
-* 🔎 **FAISS Vector Search** — Performs efficient semantic similarity search over document embeddings.
-* 🧩 **HuggingFace Embeddings** — Uses `all-MiniLM-L6-v2` for document and query embeddings.
-* ⚡ **Groq + Llama 3.3 70B** — Generates fast and contextual responses.
-* 🎓 **Programme-Aware Responses** — Personalizes answers according to the student's programme.
-* 🔀 **Conditional Graph Routing** — Sends each query to the appropriate retrieval or general-response node.
+* 📚 **PDF-Based RAG** — Retrieves relevant passages from the academic handbook or fee structure.
+* 🔎 **FAISS Vector Search** — Finds relevant document chunks using semantic similarity.
+* 🧩 **Hugging Face Embeddings** — Uses `all-MiniLM-L6-v2` to embed document and query text.
+* ⚡ **Groq + Llama 3.3 70B** — Generates contextual responses.
+* 🎓 **Programme-Aware Responses** — Tailors answers for BCA, BBA, or B.Com (H) students.
+* 💬 **Streamlit Chat UI** — Provides an interactive chat interface, with a CLI also available.
 
 ## 🏗️ Architecture
 
@@ -46,25 +46,27 @@ EduGraph is a **LangGraph-powered AI college assistant** that intelligently rout
 | Python        | Core development                    |
 | LangGraph     | Agent workflow and state management |
 | LangChain     | LLM and RAG integration             |
-| Groq          | LLM inference                       |
+| Groq          | LLM inference provider              |
 | Llama 3.3 70B | Language model                      |
 | FAISS         | Vector similarity search            |
-| HuggingFace   | Text embeddings                     |
+| Hugging Face  | Text embeddings                     |
 | PyPDF         | PDF document loading                |
 | dotenv        | Environment variable management     |
+| Streamlit     | Chat user interface                 |
 
 ## 📂 Project Structure
 
 ```text
 EduGraph/
-│
-├── main.py
-├── academics_handbook.pdf
-├── fee_structure.pdf
-├── requirements.txt
-├── .env.example
-├── .gitignore
-└── README.md
+├── README.md
+└── Edu-graph-main/
+    ├── app.py                  # Streamlit application
+    ├── conditional_RAG.py      # Command-line application
+    ├── academics_handbook.pdf
+    ├── fee_structure.pdf
+    ├── requirements.txt
+    ├── env.example
+    └── .gitignore
 ```
 
 ## ⚙️ Installation
@@ -72,8 +74,8 @@ EduGraph/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/udaydhaila1926/Edu-graph.git
-cd Edu-graph
+git clone https://github.com/kunalmathiyan05/EduGraph.git
+cd EduGraph/Edu-graph-main
 ```
 
 ### 2. Create a virtual environment
@@ -87,7 +89,7 @@ python -m venv .venv
 Activate it on Windows:
 
 ```powershell
-.venv\Scripts\activate
+.\.venv\Scripts\Activate.ps1
 ```
 
 ### 3. Install dependencies
@@ -98,7 +100,13 @@ pip install -r requirements.txt
 
 ### 4. Configure the API key
 
-Create a `.env` file:
+Create a `.env` file from the provided example:
+
+```powershell
+Copy-Item env.example .env
+```
+
+Then open `.env` and add your Groq API key:
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
@@ -106,13 +114,21 @@ GROQ_API_KEY=your_groq_api_key_here
 
 **Never commit your `.env` file or API keys to GitHub.**
 
-### 5. Run EduGraph
+### 5. Run the Streamlit app
 
 ```bash
-python main.py
+streamlit run app.py
 ```
 
-Select your programme:
+### Command-line version
+
+To use the terminal interface instead:
+
+```bash
+python conditional_RAG.py
+```
+
+Select your programme when prompted:
 
 ```text
 1. BCA
@@ -132,7 +148,7 @@ How much is the tuition fee?
 What happens if I miss the fee payment deadline?
 ```
 
-Type `exit` or `quit` to close the application.
+Type `exit` or `quit` in the terminal to close the command-line application.
 
 ## 🔄 How It Works
 
@@ -217,9 +233,9 @@ Query → Classifier
       Final Answer
 ```
 
-## 🔮 Future Improvements
+## 🔮 Possible Future Improvements
 
-Planned improvements include:
+Ideas for future development include:
 
 * [ ] Conversation memory
 * [ ] Source/page citations
@@ -227,7 +243,6 @@ Planned improvements include:
 * [ ] Self-correction and retrieval retry loops
 * [ ] Additional admission and examination agents
 * [ ] Web search integration
-* [ ] Streamlit web interface
 * [ ] Persistent user sessions
 * [ ] Human-in-the-loop workflows
 
